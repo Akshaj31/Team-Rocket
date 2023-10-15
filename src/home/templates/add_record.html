@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .form-box {
+        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* text-align: center; */
+    }
+</style>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-box">
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </div>
+</form>
+{% endblock %}
