@@ -33,7 +33,7 @@
     <div class="center-box">
         {% if user.is_authenticated %}
         {% include 'records.html' %}
-        <button><a href="{% url 'add_record' %}">Add Records</a></button>
+        <button type="button"><a href="{% url 'add_record' %}">Add Records</a></button>
         {% else %}
         <div class="login-box">
             <div class="p-2">

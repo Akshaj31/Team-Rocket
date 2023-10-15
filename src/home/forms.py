@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from home.models import Record
+from .models import Employee
 
 
 class SignUpForm(UserCreationForm):
@@ -50,16 +50,64 @@ class SignUpForm(UserCreationForm):
         ].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
 
 
-class RecordForm(forms.ModelForm):
+# class EmployeeForm(forms.ModelForm):
+#     class Meta:
+#         model = Employee
+#         fields = [
+#             "employee_id",
+#             "first_name",
+#             "last_name",
+#             "date_of_birth",
+#             "gender",
+#             "email",
+#             "phone_number",
+#             "address",
+#             "department_id",
+#             "job_title",
+#             "salary",
+#         ]
+
+class EmployeeForm(forms.ModelForm):
+    employee_id = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder": "Employee ID", "class": "form-control"}), label="")
+    first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder": "First Name", "class": "form-control"}), label="")
+    last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder": "Last Name", "class": "form-control"}), label="")
+    date_of_birth = forms.DateField(required=True, widget=forms.DateInput(attrs={"placeholder": "Date of Birth", "class": "form-control"}), label="")
+    gender = forms.ChoiceField(choices=[("M", "Male"), ("F", "Female")], required=True, widget=forms.Select(attrs={"class": "form-control"}), label="")
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={"placeholder": "Email", "class": "form-control"}), label="")
+    phone_number = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder": "Phone Number", "class": "form-control"}), label="")
+    address = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder": "Address", "class": "form-control"}), label="")
+    department_id = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder": "Department ID", "class": "form-control"}), label="")
+    job_title = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder": "Job Title", "class": "form-control"}), label="")
+    salary = forms.IntegerField(
+        required=True,
+        widget=forms.NumberInput(attrs={
+            "placeholder": "Salary",
+            "class": "form-control"
+        }),
+        label=""
+    )
+
     class Meta:
-        model = Record
+        model = Employee
         fields = [
+            "employee_id",
             "first_name",
             "last_name",
+            "date_of_birth",
+            "gender",
             "email",
-            "phone",
+            "phone_number",
             "address",
-            "city",
-            "state",
-            "zipcode",
+            "department_id",
+            "job_title",
+            "salary",
         ]
+
+    def clean_salary(self):
+        salary = self.cleaned_data.get('salary')
+
+        # Check if salary is a non-negative number
+        if salary is not None and salary < 0:
+            raise forms.ValidationError("Salary must be a non-negative number.")
+
+        return salary

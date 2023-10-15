@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "home.audit_middleware.AuditMiddleware",
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -79,9 +80,9 @@ WSGI_APPLICATION = 'audit_mgmt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'stgi',
+       'NAME': 'postgres',
        'USER': 'postgres',
-       'PASSWORD': 'postgres',
+       'PASSWORD': '1234',
        'HOST': 'localhost',
        'PORT': '5432',
     }
