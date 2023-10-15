@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import RecordForm, SignUpForm
 from .models import Record
@@ -79,3 +79,14 @@ def add_record(request):
         form = RecordForm()
 
     return render(request, "add_record.html", {"form": form})
+
+
+def delete_record(request, pk):
+    record = get_object_or_404(Record, pk=pk)
+
+    if request.method == "POST":
+        record.delete()
+        messages.success(request, "Record Deleted!")
+        return redirect("home")
+
+    return render(request, "delete_record.html", {"record": record})
